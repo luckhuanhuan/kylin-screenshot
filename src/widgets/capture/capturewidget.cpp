@@ -1198,6 +1198,9 @@ void CaptureWidget::setState(CaptureButton *b) {
              if (m_toolWidget) {
                  m_toolWidget->deleteLater();
              }
+	     // 鼠标位于框选区域内  子窗口才有效
+	     if(m_context.selection.contains(QPoint(m_context.mousePos.x()+m_context.text_thickness*3,m_context.mousePos.y()+ m_context.text_thickness*3)))
+             {
              m_toolWidget = m_activeTool->widget();
              if (m_toolWidget) {
                  makeChild(m_toolWidget);
@@ -1205,6 +1208,7 @@ void CaptureWidget::setState(CaptureButton *b) {
                  m_toolWidget->show();
                  m_toolWidget->setFocus();
              }
+	     }
              break;
          case CaptureTool::REQ_ADD_CHILD_WINDOW:
              if (!m_activeTool) {
@@ -1223,7 +1227,7 @@ void CaptureWidget::setState(CaptureButton *b) {
                  QWidget *w = m_activeTool->widget();
                  w->setAttribute(Qt::WA_DeleteOnClose);
                  w->show();
-             }
+	     }
              break;
 #ifdef ENABLE_RECORD
          case CaptureTool::REQ_CURSOR_RECORD:
